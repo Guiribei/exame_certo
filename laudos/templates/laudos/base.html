@@ -1,235 +1,54 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ExameCerto - {% block title %}{% endblock %}</title>
+    <title>{% block title %}ExameCerto{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --lotus-black: #1a1a1a;
-            --lotus-gold: #d4af37;
-            --lotus-white: #ffffff;
-            --lotus-gray: #f5f5f5;
-            --lotus-red: #e74c3c;
-        }
-
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: var(--lotus-gray);
-            color: var(--lotus-black);
-        }
-
-        .navbar {
-            background-color: var(--lotus-black) !important;
-            padding: 1rem 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .navbar-brand {
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: var(--lotus-white) !important;
-        }
-
-        .nav-link {
-            color: var(--lotus-white) !important;
-            font-weight: 500;
-            padding: 0.5rem 1rem !important;
-            transition: all 0.3s ease;
-        }
-
-        .nav-link:hover {
-            color: var(--lotus-gold) !important;
-        }
-
-        .card {
-            border: none;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
-            margin-bottom: 1.5rem;
-        }
-
-        .card:hover {
-            transform: translateY(-2px);
-        }
-
-        .card-header {
-            background-color: var(--lotus-white);
-            border-bottom: 2px solid var(--lotus-gold);
-            padding: 1.5rem;
-        }
-
-        .card-body {
-            padding: 1.5rem;
-        }
-
-        .btn-primary {
-            background-color: var(--lotus-black);
-            border: none;
-            padding: 0.75rem 1.5rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--lotus-gold);
-            color: var(--lotus-black);
-        }
-
-        .btn-outline-secondary {
-            border-color: var(--lotus-black);
-            color: var(--lotus-black);
-        }
-
-        .btn-outline-secondary:hover {
-            background-color: var(--lotus-black);
-            color: var(--lotus-white);
-        }
-
-        .alert-critical {
-            background-color: #fff5f5;
-            border-left: 4px solid var(--lotus-red);
-            color: var(--lotus-black);
-        }
-
-        .pdf-preview {
-            background-color: var(--lotus-white);
-            border-radius: 8px;
-            padding: 2rem;
-            margin: 2rem 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-
-        .highlight {
-            background-color: #fff5f5;
-            color: var(--lotus-red);
-            padding: 0.2rem 0.4rem;
-            border-radius: 4px;
-            font-weight: 600;
-        }
-
-        .badge {
-            padding: 0.5rem 1rem;
-            font-weight: 600;
-            border-radius: 4px;
-        }
-
-        .badge.bg-danger {
-            background-color: var(--lotus-red) !important;
-        }
-
-        .form-control, .form-select {
-            border: 1px solid #ddd;
-            padding: 0.75rem;
-            border-radius: 4px;
-        }
-
-        .form-control:focus, .form-select:focus {
-            border-color: var(--lotus-gold);
-            box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25);
-        }
-
-        .page-header {
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--lotus-gold);
-        }
-
-        .page-title {
-            font-weight: 700;
-            color: var(--lotus-black);
-            margin-bottom: 0;
-        }
-
-        .footer {
-            background-color: var(--lotus-black);
-            color: var(--lotus-white);
-            padding: 2rem 0;
-            margin-top: 4rem;
-        }
-
-        .footer a {
-            color: var(--lotus-gold);
-            text-decoration: none;
-        }
-
-        .footer a:hover {
-            color: var(--lotus-white);
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark">
+    <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'dashboard' %}">
-                <i class="fas fa-stethoscope me-2"></i>ExameCerto
-            </a>
+            <a class="navbar-brand" href="{% url 'laudos:upload_laudo' %}">ExameCerto</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'dashboard' %}">
-                            <i class="fas fa-tachometer-alt me-2"></i>Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'upload_laudo' %}">
-                            <i class="fas fa-upload me-2"></i>Upload Laudo
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'cadastrar_paciente' %}">
-                            <i class="fas fa-user-plus me-2"></i>Novo Paciente
-                        </a>
-                    </li>
-                </ul>
-                {% if user.is_authenticated %}
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">
-                            <i class="fas fa-sign-out-alt me-2"></i>Sair
-                        </a>
+                        <a class="nav-link" href="{% url 'laudos:upload_laudo' %}">Upload Laudo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'laudos:cadastrar_paciente' %}">Cadastrar Paciente</a>
                     </li>
                 </ul>
-                {% endif %}
             </div>
         </div>
     </nav>
 
-    <div class="container py-4">
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            {% endfor %}
-        {% endif %}
-
-        {% block content %}
-        {% endblock %}
-    </div>
+    <main class="container py-4">
+        {% block content %}{% endblock %}
+    </main>
 
     <footer class="footer">
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
                     <h5>ExameCerto</h5>
-                    <p>Transformando a jornada diagnóstica com inteligência artificial.</p>
+                    <p>Sistema de análise de laudos médicos com IA</p>
                 </div>
                 <div class="col-md-6 text-md-end">
-                    <p>&copy; 2024 ExameCerto. Todos os direitos reservados.</p>
+                    <p>&copy; {% now "Y" %} ExameCerto. Todos os direitos reservados.</p>
                 </div>
             </div>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    {% block extra_js %}{% endblock %}
 </body>
 </html> 
