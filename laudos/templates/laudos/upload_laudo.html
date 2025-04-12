@@ -1,0 +1,53 @@
+{% extends 'laudos/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Upload de Laudo{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="page-header mb-4">
+            <h1 class="page-title">Upload de Laudo</h1>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <div class="d-grid gap-3 mt-4">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-upload me-2"></i>Enviar Laudo
+                        </button>
+                        <a href="{% url 'cadastrar_paciente' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-user-plus me-2"></i>Cadastrar Novo Paciente
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-info-circle me-2"></i>Informações Importantes
+                </h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2">
+                        <i class="fas fa-check-circle text-success me-2"></i>
+                        Formatos aceitos: PDF
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-check-circle text-success me-2"></i>
+                        Tamanho máximo: 10MB
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-check-circle text-success me-2"></i>
+                        Processamento automático com IA
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

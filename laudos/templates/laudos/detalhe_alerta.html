@@ -1,0 +1,107 @@
+{% extends 'laudos/base.html' %}
+
+{% block title %}Detalhe do Alerta{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="page-header mb-4">
+            <h1 class="page-title">
+                <i class="fas fa-exclamation-triangle text-danger me-2"></i>
+                Alerta Crítico - {{ alerta.laudo.tipo_exame }}
+            </h1>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5 class="mb-3">
+                            <i class="fas fa-user me-2"></i>Informações do Paciente
+                        </h5>
+                        <div class="mb-3">
+                            <p class="mb-1 text-muted">Nome</p>
+                            <p class="mb-0">{{ alerta.laudo.paciente.nome }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <p class="mb-1 text-muted">Data do Exame</p>
+                            <p class="mb-0">{{ alerta.laudo.data_exame|date:"d/m/Y" }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <p class="mb-1 text-muted">Tipo de Exame</p>
+                            <p class="mb-0">{{ alerta.laudo.tipo_exame }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h5 class="mb-3">
+                            <i class="fas fa-chart-line me-2"></i>Detalhes do Alerta
+                        </h5>
+                        <div class="alert alert-critical">
+                            <div class="mb-3">
+                                <p class="mb-1 text-muted">Valor Alterado</p>
+                                <p class="mb-0 highlight">{{ alerta.valor_alterado }}</p>
+                            </div>
+                            <div class="mb-3">
+                                <p class="mb-1 text-muted">Valor de Referência</p>
+                                <p class="mb-0">{{ alerta.valor_referencia }}</p>
+                            </div>
+                            <div>
+                                <p class="mb-1 text-muted">Data do Alerta</p>
+                                <p class="mb-0">{{ alerta.created_at|date:"d/m/Y H:i" }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="mb-3">
+                    <i class="fas fa-file-pdf me-2"></i>Visualização do Laudo
+                </h5>
+                <div class="pdf-preview">
+                    <div class="bg-light p-4" style="font-family: monospace;">
+                        <p class="mb-2">LABORATÓRIO EXEMPLO</p>
+                        <p class="mb-2">Data: {{ alerta.laudo.data_exame|date:"d/m/Y" }}</p>
+                        <p class="mb-2">Paciente: {{ alerta.laudo.paciente.nome }}</p>
+                        <p class="mb-2">Exame: {{ alerta.laudo.tipo_exame }}</p>
+                        <p class="mb-2">----------------------------------------</p>
+                        <p class="mb-2">RESULTADOS:</p>
+                        <p class="mb-2">Sódio: 140 mEq/L (VR: 135-145)</p>
+                        <p class="mb-2">Potássio: <span class="highlight">6.8 mEq/L</span> (VR: 3.5-5.1)</p>
+                        <p class="mb-2">Cloreto: 102 mEq/L (VR: 98-107)</p>
+                        <p class="mb-0">----------------------------------------</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="mb-3">
+                    <i class="fas fa-info-circle me-2"></i>Motivo do Alerta
+                </h5>
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    {{ alerta.descricao }}
+                </div>
+
+                {% if not alerta.revisado %}
+                    <form method="post" class="text-end">
+                        {% csrf_token %}
+                        <button type="submit" name="marcar_revisado" class="btn btn-primary">
+                            <i class="fas fa-check me-2"></i>Marcar como Revisado
+                        </button>
+                    </form>
+                {% else %}
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle me-2"></i>
+                        Alerta revisado por {{ alerta.revisado_por.username }} em {{ alerta.data_revisao|date:"d/m/Y H:i" }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

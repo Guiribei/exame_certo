@@ -1,0 +1,45 @@
+{% extends 'laudos/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Cadastrar Paciente{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="page-header mb-4">
+            <h1 class="page-title">
+                <i class="fas fa-user-plus me-2"></i>Cadastrar Novo Paciente
+            </h1>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <div class="d-grid gap-3 mt-4">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>Salvar Paciente
+                        </button>
+                        <a href="{% url 'upload_laudo' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Voltar para Upload
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-info-circle me-2"></i>Importante
+                </h5>
+                <p class="mb-0">
+                    Certifique-se de que os dados do paciente estão corretos antes de salvar.
+                    Estas informações serão utilizadas para identificar os laudos e gerar alertas.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
