@@ -4,7 +4,7 @@ from PyPDF2 import PdfReader
 from django.conf import settings
 
 # Initialize OpenAI client
-client = OpenAI(api_key=os.getenv('OPENAI_API_KEY', 'your-api-key-here'))
+client = OpenAI(api_key=os.getenv('OPENAI_API_KEY', 'api-key here'))
 
 def extract_text_from_pdf(pdf_file):
     """Extract text content from a PDF file."""
@@ -42,7 +42,7 @@ def analyze_laudo_with_gpt4(text):
 
     try:
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-4o",
             messages=[
                 {"role": "system", "content": "Você é um assistente médico especializado em análise de laudos."},
                 {"role": "user", "content": prompt}

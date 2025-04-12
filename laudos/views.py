@@ -22,7 +22,6 @@ def upload_laudo(request):
         form = LaudoUploadForm(request.POST, request.FILES)
         if form.is_valid():
             try:
-                print("ENTROOOUUU NO UPLOAD LAUDO")
                 # Save the laudo
                 laudo = form.save()
                 
