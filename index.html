@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Centered SVG</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      background: #000; /* optional: fallback background */
+    }
+    .svg-wrapper {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    object {
+      display: block;
+      max-width: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="svg-wrapper">
+    <object type="image/svg+xml" data="Problema.svg"></object>
+  </div>
+</body>
+</html>
