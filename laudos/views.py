@@ -22,6 +22,7 @@ def upload_laudo(request):
         form = LaudoUploadForm(request.POST, request.FILES)
         if form.is_valid():
             try:
+                print("ENTROOOUUU NO UPLOAD LAUDO")
                 # Save the laudo
                 laudo = form.save()
                 
@@ -50,6 +51,7 @@ def upload_laudo(request):
                 return redirect('laudos:dashboard')
                 
             except Exception as e:
+                print(f"Erro ao processar o laudo: {str(e)}")
                 messages.error(request, f'Erro ao processar o laudo: {str(e)}')
                 return redirect('laudos:upload_laudo')
     else:

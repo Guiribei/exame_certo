@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-jn$k(f!qc5(d_8boi$42z!pa6d-v#g^2u^g2b34577%q%x3^4z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # OpenAI API Key
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
