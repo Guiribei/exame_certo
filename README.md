@@ -1,4 +1,4 @@
-# ExameCerto - IA Clínica Sentinela
+# ExameCerto - Hackaton HSIL 2025
 
 Sistema inteligente de gestão e processamento de laudos de exames complementares.
 
