@@ -36,7 +36,7 @@ def upload_laudo(request):
             else:
                 messages.success(request, 'Laudo processado com sucesso. Nenhum alerta crítico.')
             
-            return redirect('dashboard')
+            return redirect('laudos:dashboard')
     else:
         form = LaudoUploadForm()
     
@@ -49,7 +49,7 @@ def detalhe_alerta(request, alerta_id):
     if request.method == 'POST' and 'marcar_revisado' in request.POST:
         alerta.marcar_como_revisado(request.user)
         messages.success(request, 'Alerta marcado como revisado com sucesso.')
-        return redirect('dashboard')
+        return redirect('laudos:dashboard')
     
     context = {
         'alerta': alerta,
@@ -63,7 +63,7 @@ def cadastrar_paciente(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Paciente cadastrado com sucesso!')
-            return redirect('upload_laudo')
+            return redirect('laudos:upload_laudo')
     else:
         form = PacienteForm()
     
