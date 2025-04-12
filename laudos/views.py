@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.utils import timezone
 from .models import Laudo, Alerta, Paciente
 from .forms import LaudoUploadForm, PacienteForm
-import random
+from .utils import extract_text_from_pdf, analyze_laudo_with_gpt4, parse_gpt4_response
 
 # Create your views here.
 
@@ -21,22 +21,37 @@ def upload_laudo(request):
     if request.method == 'POST':
         form = LaudoUploadForm(request.POST, request.FILES)
         if form.is_valid():
-            laudo = form.save()
-            
-            # Simulação do processamento de IA
-            if random.random() < 0.8:  # 80% de chance de gerar alerta crítico
-                Alerta.objects.create(
-                    laudo=laudo,
-                    nivel='CRITICO',
-                    descricao='Valor Crítico Detectado',
-                    valor_alterado='Potássio 6.8 mEq/L',
-                    valor_referencia='3.5-5.1 mEq/L'
-                )
-                messages.warning(request, 'Alerta crítico detectado! Verifique o dashboard.')
-            else:
-                messages.success(request, 'Laudo processado com sucesso. Nenhum alerta crítico.')
-            
-            return redirect('laudos:dashboard')
+            try:
+                # Save the laudo
+                laudo = form.save()
+                
+                # Extract text from PDF
+                pdf_text = extract_text_from_pdf(laudo.arquivo_pdf)
+                
+                # Analyze with GPT-4
+                gpt_response = analyze_laudo_with_gpt4(pdf_text)
+                
+                # Parse the response
+                alerta_data = parse_gpt4_response(gpt_response)
+                
+                if alerta_data:
+                    # Create alert if critical values found
+                    Alerta.objects.create(
+                        laudo=laudo,
+                        nivel=alerta_data['nivel'],
+                        descricao=alerta_data['descricao'],
+                        valor_alterado=alerta_data['valor_alterado'],
+                        valor_referencia=alerta_data['valor_referencia']
+                    )
+                    messages.warning(request, 'Alerta crítico detectado! Verifique o dashboard.')
+                else:
+                    messages.success(request, 'Laudo processado com sucesso. Nenhum alerta crítico.')
+                
+                return redirect('laudos:dashboard')
+                
+            except Exception as e:
+                messages.error(request, f'Erro ao processar o laudo: {str(e)}')
+                return redirect('laudos:upload_laudo')
     else:
         form = LaudoUploadForm()
     
